@@ -1,0 +1,27 @@
+{
+  "name": "alexa-street-address",
+  "version": "1.0.0",
+  "description": "Parses a spoken physical street address",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/gavinleader/alexa-street-address.git"
+  },
+  "keywords": [
+    "alexa",
+    "address",
+    "nlp"
+  ],
+  "author": "Gavin Leader",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gavinleader/alexa-street-address/issues"
+  },
+  "homepage": "https://github.com/gavinleader/alexa-street-address#readme",
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}

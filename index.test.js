@@ -1,0 +1,58 @@
+const parser = require('./index');
+const errors = require('./constants/errors')
+
+const testAddresses = [
+  {
+    spoken: '123 northeast 30 first avenue',
+    friendly: '123 northeast 31st avenue'
+  },
+  {
+    spoken: '123 north east 20 second avenue',
+    friendly: '123 northeast 22nd avenue'
+  },
+  {
+    spoken: '123 northeast 50 third avenue',
+    friendly: '123 northeast 53rd avenue'
+  },
+  {
+    spoken: '123 northeast 50 fifth avenue',
+    friendly: '123 northeast 55th avenue'
+  },
+  {
+    spoken: '123 50 fifth avenue north',
+    friendly: '123 55th avenue north'
+  },
+  {
+    spoken: '123 fifth avenue',
+    friendly: '123 5th avenue'
+  },
+  {
+    spoken: '123 lower green hills drive south',
+    friendly: '123 lower green hills drive south'
+  },
+  {
+    spoken: '123 old highway road',
+    friendly: '123 old highway road'
+  }
+];
+
+testAddresses.map(addr => {
+  test(`address: ${addr.spoken}`, () => {
+    const friendlyAddress = parser.getFriendlyAddress(addr.spoken);
+    expect(friendlyAddress).toEqual(addr.friendly);
+  });
+});
+
+test('must start with house number', () => {
+  expect(() => {
+    const friendlyAddress = parser.getFriendlyAddress('lake drive');
+    return friendlyAddress;
+  }).toThrow();
+});
+
+test('must have a street type', () => {
+  expect(() => {
+    const friendlyAddress = parser.getFriendlyAddress('123 lake');
+    return friendlyAddress;
+  }).toThrow();
+});
