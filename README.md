@@ -7,7 +7,7 @@ npm install --save alexa-street-address
 ```
 ## Example
 ```javascript
-const { getFriendlyAddress } = require('')
+const { getFriendlyAddress } = require('alexa-address-parser');
 
 const spokenAddress = '123 northeast 30 first avenue';
 const friendlyAddress = getFriendlyAddress(spokenAddress);
