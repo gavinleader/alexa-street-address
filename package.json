@@ -1,6 +1,6 @@
 {
   "name": "alexa-street-address",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Parses a spoken physical street address",
   "main": "index.js",
   "scripts": {
