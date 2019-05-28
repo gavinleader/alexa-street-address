@@ -1,10 +1,11 @@
 const DIRECTIONS = require('./constants/directions');
 const STREET_TYPE = require('./constants/streetType');
 const ORDINALS = require('./constants/ordinals');
+const NUMBERS = require('./constants/numbers');
 const errors = require('./constants/errors');
 
 const isNumber = (val) => {
-  return /^\d+$/.test(val);
+  return /^\d+$/.test(val) || Object.keys(NUMBERS).includes(val);
 };
 
 const processString = (spokenAddress) => {
@@ -50,10 +51,52 @@ const appendProp = (obj, name, val) => {
     obj[name] = val;
 };
 
+const combineNumbers = (numberList) => {
+  numberList.reverse();
+  let nextMultiplier = 1;
+  const number = numberList.reduce((value, current) => {
+    if (current === 'hundred') {
+      nextMultiplier = NUMBERS['hundred'];
+    } else if (current === 'thousand') {
+      nextMultiplier = NUMBERS['thousand'];
+    } else {
+      // string -> integer
+      if (Object.keys(NUMBERS).includes(current)) {
+        current = NUMBERS[current];
+      }
+
+      // update number value based on context
+      if (nextMultiplier > 1) {
+        value += current * nextMultiplier;
+        nextMultiplier = 1;
+      } else {
+        let multiplier = 1;
+        if (value > 99) {
+          multiplier = 1000
+        } else if (value > 9) {
+          multiplier = 100
+        } else if (value > 0) {
+          multiplier = 10;
+        }
+
+        if (current === 0) {
+          nextMultiplier = multiplier * 10;
+        } else {
+          value += current * multiplier;
+        }
+      }
+    }
+    return value;
+  }, 0);
+
+  return number;
+};
+
 const parseAddress = (spokenAddress) => {
   const { words, streetTypeIndex } = processString(spokenAddress);
   const addr = {};
-  let i = 1;
+  const houseNumbers = [];
+  let i = 0;
 
   if (words[0].type !== 'number')
     return { error: errors.START_WITH_NUMBER };
@@ -61,7 +104,11 @@ const parseAddress = (spokenAddress) => {
     return { error: errors.NO_STREET_TYPE };
 
   // house number
-  appendProp(addr, 'number', words[0].value);
+  while (words[i].type === 'number') {
+    houseNumbers.push(words[i].value);
+    i++;
+  }
+  addr.number = combineNumbers(houseNumbers);
 
   // street direction prefix (optional)
   while (words[i].type === 'direction') {
@@ -108,7 +155,9 @@ const parseAddress = (spokenAddress) => {
 
 module.exports.getFriendlyAddress = (spokenAddress) => {
   const a = parseAddress(spokenAddress);
-  if (a.error) throw a;
+  if (a.error) {
+    throw a.error;
+  }
 
   const friendly = [a.number];
   if (a.prefix) friendly.push(a.prefix);

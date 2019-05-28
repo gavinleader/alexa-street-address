@@ -20,7 +20,7 @@ const testAddresses = [
   },
   {
     spoken: '123 50 fifth avenue north',
-    friendly: '123 55th avenue north'
+    friendly: '12350 5th avenue north'
   },
   {
     spoken: '123 fifth avenue',
@@ -33,6 +33,22 @@ const testAddresses = [
   {
     spoken: '123 old highway road',
     friendly: '123 old highway road'
+  },
+  {
+    spoken: 'one two eight zero se market street',
+    friendly: '1280 se market street'
+  },
+  {
+    spoken: 'one two zero eight se market street',
+    friendly: '1208 se market street'
+  },
+  {
+    spoken: 'four thousand two twenty se clinton street',
+    friendly: '4220 se clinton street'
+  },
+  {
+    spoken: 'four hundred twenty se clinton ave',
+    friendly: '420 se clinton ave'
   }
 ];
 
@@ -47,12 +63,12 @@ test('must start with house number', () => {
   expect(() => {
     const friendlyAddress = parser.getFriendlyAddress('lake drive');
     return friendlyAddress;
-  }).toThrow();
+  }).toThrow(errors.START_WITH_NUMBER);
 });
 
 test('must have a street type', () => {
   expect(() => {
     const friendlyAddress = parser.getFriendlyAddress('123 lake');
     return friendlyAddress;
-  }).toThrow();
+  }).toThrow(errors.NO_STREET_TYPE);
 });
