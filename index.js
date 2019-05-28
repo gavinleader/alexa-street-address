@@ -155,7 +155,7 @@ const parseAddress = (spokenAddress) => {
 };
 
 module.exports.getFriendlyAddress = (spokenAddress) => {
-  const a = parseAddress(spokenAddress.toLowerCase());
+  const a = parseAddress(spokenAddress);
   if (a.error) {
     throw a.error;
   }
