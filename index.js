@@ -93,7 +93,8 @@ const combineNumbers = (numberList) => {
 };
 
 const parseAddress = (spokenAddress) => {
-  const { words, streetTypeIndex } = processString(spokenAddress);
+  const cleanAddress = spokenAddress.toLowerCase().replace(',', '');
+  const { words, streetTypeIndex } = processString(cleanAddress);
   const addr = {};
   const houseNumbers = [];
   let i = 0;

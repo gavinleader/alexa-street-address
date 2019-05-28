@@ -51,6 +51,10 @@ const testAddresses = [
     friendly: '420 se clinton ave'
   },
   {
+    spoken: '4,220 se Clinton street',
+    friendly: '4220 se clinton street'
+  },
+  {
     spoken: '410 TERRY AVE',
     friendly: '410 terry ave'
   }
