@@ -49,6 +49,10 @@ const testAddresses = [
   {
     spoken: 'four hundred twenty se clinton ave',
     friendly: '420 se clinton ave'
+  },
+  {
+    spoken: '410 TERRY AVE',
+    friendly: '410 terry ave'
   }
 ];
 
